@@ -15,100 +15,105 @@
 
     body {
       font-family: 'Zen Maru Gothic', sans-serif;
-      background: linear-gradient(180deg, #0f1c2e 0%, #1a2f4a 40%, #243b55 100%);
+      background: linear-gradient(165deg, #0b1726 0%, #152a45 45%, #1e3a5f 100%);
       min-height: 100vh;
-      color: #f5f0e6;
+      color: #f3efe6;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 40px 16px;
+      padding: 48px 16px 60px;
     }
 
     .container {
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
     }
 
     .tree-area {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .tree {
-      font-size: 92px;
+      font-size: 108px;
       line-height: 1;
-      filter: drop-shadow(0 0 18px rgba(46, 204, 113, 0.35));
+      filter: drop-shadow(0 0 24px rgba(46, 204, 113, 0.4));
     }
 
     .title {
-      font-size: 1.55rem;
+      font-size: 1.7rem;
       font-weight: 700;
-      margin-top: 8px;
-      letter-spacing: 0.04em;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
     }
 
     .subtitle {
-      font-size: 0.9rem;
-      opacity: 0.75;
-      margin-top: 6px;
+      font-size: 0.92rem;
+      opacity: 0.72;
+      margin-top: 8px;
+      line-height: 1.5;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 28px 24px;
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 22px;
+      padding: 32px 26px 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     }
 
     label {
       display: block;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
       opacity: 0.9;
+      letter-spacing: 0.03em;
     }
 
-    input, textarea {
+    input[type="text"], textarea {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(0, 0, 0, 0.25);
-      color: #f5f0e6;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(0, 0, 0, 0.28);
+      color: #f3efe6;
       font-family: inherit;
-      font-size: 0.95rem;
-      margin-bottom: 18px;
+      font-size: 0.98rem;
+      margin-bottom: 22px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    input:focus, textarea:focus {
+    input[type="text"]:focus, textarea:focus {
       border-color: #7dcea0;
+      background: rgba(0, 0, 0, 0.38);
     }
 
     textarea {
       resize: vertical;
-      min-height: 110px;
+      min-height: 180px;
+      line-height: 1.65;
     }
 
     .ornaments {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 24px;
     }
 
     .ornament {
       aspect-ratio: 1;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 2px solid transparent;
-      background: rgba(0, 0, 0, 0.25);
-      font-size: 1.5rem;
+      background: rgba(0, 0, 0, 0.28);
+      font-size: 1.55rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.18s;
     }
 
     .ornament:hover {
@@ -117,42 +122,108 @@
 
     .ornament.selected {
       border-color: #f1c40f;
-      background: rgba(241, 196, 15, 0.15);
-      transform: scale(1.08);
+      background: rgba(241, 196, 15, 0.18);
+      transform: scale(1.07);
+      box-shadow: 0 0 12px rgba(241, 196, 15, 0.25);
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.78rem;
+      opacity: 0.55;
+      margin-top: -16px;
+      margin-bottom: 22px;
+    }
+
+    .security-box {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .security-box:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .security-box.checked {
+      border-color: rgba(46, 204, 113, 0.45);
+      background: rgba(46, 204, 113, 0.08);
+    }
+
+    .checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+
+    .security-box.checked .checkbox {
+      background: #27ae60;
+      border-color: #27ae60;
+    }
+
+    .security-text {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .security-text span {
+      display: block;
+      font-size: 0.75rem;
+      opacity: 0.55;
+      margin-top: 2px;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #219a52, #2ecc71);
       color: white;
       font-family: inherit;
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.15s, opacity 0.15s;
+      letter-spacing: 0.04em;
+      transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
+      box-shadow: 0 6px 20px rgba(46, 204, 113, 0.25);
     }
 
-    button:hover {
-      transform: translateY(-1px);
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(46, 204, 113, 0.35);
     }
 
-    button:active {
+    button:active:not(:disabled) {
       transform: translateY(0);
     }
 
     button:disabled {
-      opacity: 0.6;
+      opacity: 0.45;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
     .footer {
       text-align: center;
-      margin-top: 28px;
-      font-size: 0.78rem;
-      opacity: 0.5;
+      margin-top: 32px;
+      font-size: 0.8rem;
+      opacity: 0.48;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -161,13 +232,13 @@
     <div class="tree-area">
       <div class="tree">🎄</div>
       <h1 class="title">クリスマスツリー</h1>
-      <p class="subtitle">メッセージを飾ってください</p>
+      <p class="subtitle">あなたの気持ちを<br>オーナメントに込めて飾ってください</p>
     </div>
 
     <div class="card">
-      <form id="letterForm" action="https://formspree.io/f/mqppoorj" method="POST">
+      <form id="letterForm" action="https://formspree.io/f/ここにあなたのフォームID" method="POST">
         <label>お名前</label>
-        <input type="text" name="name" id="name" placeholder="匿名でも大丈夫です" maxlength="20">
+        <input type="text" name="name" id="name" placeholder="匿名でも大丈夫です" maxlength="30">
 
         <label>オーナメントを選ぶ</label>
         <div class="ornaments" id="ornamentList">
@@ -185,9 +256,18 @@
         <input type="hidden" name="ornament" id="ornamentInput" value="🎁">
 
         <label>メッセージ</label>
-        <textarea name="message" id="message" placeholder="伝えたいことを書いてね" maxlength="300" required></textarea>
+        <textarea name="message" id="message" placeholder="伝えたいことを自由に書いてください。&#10;短くても、長くても大丈夫です。" maxlength="1000" required></textarea>
+        <div class="char-count"><span id="count">0</span> / 1000</div>
 
-        <button type="submit" id="submitBtn">ツリーに飾る</button>
+        <div class="security-box" id="securityBox">
+          <div class="checkbox" id="checkbox"></div>
+          <div class="security-text">
+            私はロボットではありません
+            <span>送信前の簡単な確認です</span>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" disabled>ツリーに飾る</button>
       </form>
     </div>
 
@@ -196,6 +276,7 @@
 
   <script>
     let selectedOrnament = "🎁";
+    let isVerified = false;
 
     document.querySelectorAll(".ornament").forEach(el => {
       el.addEventListener("click", () => {
@@ -206,10 +287,30 @@
       });
     });
 
-    document.getElementById("letterForm").addEventListener("submit", function() {
-      const btn = document.getElementById("submitBtn");
-      btn.disabled = true;
-      btn.textContent = "飾っています…";
+    const textarea = document.getElementById("message");
+    const count = document.getElementById("count");
+    const securityBox = document.getElementById("securityBox");
+    const checkbox = document.getElementById("checkbox");
+    const submitBtn = document.getElementById("submitBtn");
+
+    textarea.addEventListener("input", () => {
+      count.textContent = textarea.value.length;
+    });
+
+    securityBox.addEventListener("click", () => {
+      isVerified = !isVerified;
+      securityBox.classList.toggle("checked", isVerified);
+      checkbox.textContent = isVerified ? "✓" : "";
+      submitBtn.disabled = !isVerified;
+    });
+
+    document.getElementById("letterForm").addEventListener("submit", function(e) {
+      if (!isVerified) {
+        e.preventDefault();
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = "飾っています…";
     });
   </script>
 </body>
