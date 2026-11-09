@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クリスマスツリーにお手紙</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: linear-gradient(180deg, #0f1c2e 0%, #1a2f4a 40%, #243b55 100%);
+      min-height: 100vh;
+      color: #f5f0e6;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .tree-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .tree {
+      font-size: 92px;
+      line-height: 1;
+      filter: drop-shadow(0 0 18px rgba(46, 204, 113, 0.35));
+    }
+
+    .title {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-top: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      margin-top: 6px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 28px 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.25);
+      color: #f5f0e6;
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #7dcea0;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .ornaments {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .ornament {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      background: rgba(0, 0, 0, 0.25);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .ornament:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .ornament.selected {
+      border-color: #f1c40f;
+      background: rgba(241, 196, 15, 0.15);
+      transform: scale(1.08);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.78rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tree-area">
+      <div class="tree">🎄</div>
+      <h1 class="title">クリスマスツリー</h1>
+      <p class="subtitle">メッセージを飾ってください</p>
+    </div>
+
+    <div class="card">
+      <form id="letterForm" action="https://formspree.io/f/mqppoorj" method="POST">
+        <label>お名前</label>
+        <input type="text" name="name" id="name" placeholder="匿名でも大丈夫です" maxlength="20">
+
+        <label>オーナメントを選ぶ</label>
+        <div class="ornaments" id="ornamentList">
+          <div class="ornament selected" data-emoji="🎁">🎁</div>
+          <div class="ornament" data-emoji="⭐">⭐</div>
+          <div class="ornament" data-emoji="🔔">🔔</div>
+          <div class="ornament" data-emoji="❄️">❄️</div>
+          <div class="ornament" data-emoji="🎅">🎅</div>
+          <div class="ornament" data-emoji="🦌">🦌</div>
+          <div class="ornament" data-emoji="🧦">🧦</div>
+          <div class="ornament" data-emoji="🍪">🍪</div>
+          <div class="ornament" data-emoji="🕯️">🕯️</div>
+          <div class="ornament" data-emoji="💌">💌</div>
+        </div>
+        <input type="hidden" name="ornament" id="ornamentInput" value="🎁">
+
+        <label>メッセージ</label>
+        <textarea name="message" id="message" placeholder="伝えたいことを書いてね" maxlength="300" required></textarea>
+
+        <button type="submit" id="submitBtn">ツリーに飾る</button>
+      </form>
+    </div>
+
+    <p class="footer">大切な気持ちを、そっと届けます</p>
+  </div>
+
+  <script>
+    let selectedOrnament = "🎁";
+
+    document.querySelectorAll(".ornament").forEach(el => {
+      el.addEventListener("click", () => {
+        document.querySelectorAll(".ornament").forEach(o => o.classList.remove("selected"));
+        el.classList.add("selected");
+        selectedOrnament = el.dataset.emoji;
+        document.getElementById("ornamentInput").value = selectedOrnament;
+      });
+    });
+
+    document.getElementById("letterForm").addEventListener("submit", function() {
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.textContent = "飾っています…";
+    });
+  </script>
+</body>
+</html>
