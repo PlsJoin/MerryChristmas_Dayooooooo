@@ -1,317 +1,521 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>クリスマスツリーにお手紙</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Zen Maru Gothic', sans-serif;
-      background: linear-gradient(165deg, #0b1726 0%, #152a45 45%, #1e3a5f 100%);
-      min-height: 100vh;
-      color: #f3efe6;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 48px 16px 60px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 460px;
-    }
-
-    .tree-area {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .tree {
-      font-size: 108px;
-      line-height: 1;
-      filter: drop-shadow(0 0 24px rgba(46, 204, 113, 0.4));
-    }
-
-    .title {
-      font-size: 1.7rem;
-      font-weight: 700;
-      margin-top: 10px;
-      letter-spacing: 0.05em;
-    }
-
-    .subtitle {
-      font-size: 0.92rem;
-      opacity: 0.72;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.13);
-      border-radius: 22px;
-      padding: 32px 26px 28px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-    }
-
-    label {
-      display: block;
-      font-size: 0.88rem;
-      margin-bottom: 8px;
-      opacity: 0.9;
-      letter-spacing: 0.03em;
-    }
-
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(0, 0, 0, 0.28);
-      color: #f3efe6;
-      font-family: inherit;
-      font-size: 0.98rem;
-      margin-bottom: 22px;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    input[type="text"]:focus, textarea:focus {
-      border-color: #7dcea0;
-      background: rgba(0, 0, 0, 0.38);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 180px;
-      line-height: 1.65;
-    }
-
-    .ornaments {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-
-    .ornament {
-      aspect-ratio: 1;
-      border-radius: 14px;
-      border: 2px solid transparent;
-      background: rgba(0, 0, 0, 0.28);
-      font-size: 1.55rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.18s;
-    }
-
-    .ornament:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .ornament.selected {
-      border-color: #f1c40f;
-      background: rgba(241, 196, 15, 0.18);
-      transform: scale(1.07);
-      box-shadow: 0 0 12px rgba(241, 196, 15, 0.25);
-    }
-
-    .char-count {
-      text-align: right;
-      font-size: 0.78rem;
-      opacity: 0.55;
-      margin-top: -16px;
-      margin-bottom: 22px;
-    }
-
-    .security-box {
-      background: rgba(0, 0, 0, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-    }
-
-    .security-box:hover {
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .security-box.checked {
-      border-color: rgba(46, 204, 113, 0.45);
-      background: rgba(46, 204, 113, 0.08);
-    }
-
-    .checkbox {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      font-size: 0.85rem;
-    }
-
-    .security-box.checked .checkbox {
-      background: #27ae60;
-      border-color: #27ae60;
-    }
-
-    .security-text {
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .security-text span {
-      display: block;
-      font-size: 0.75rem;
-      opacity: 0.55;
-      margin-top: 2px;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #219a52, #2ecc71);
-      color: white;
-      font-family: inherit;
-      font-size: 1.08rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
-      box-shadow: 0 6px 20px rgba(46, 204, 113, 0.25);
-    }
-
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(46, 204, 113, 0.35);
-    }
-
-    button:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 32px;
-      font-size: 0.8rem;
-      opacity: 0.48;
-      line-height: 1.6;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クリスマスツリーにお手紙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night-top: #070d1a;
+  --night-bottom: #14213d;
+  --paper: #f5eee0;
+  --paper-edge: #e6dac3;
+  --ink: #2a241d;
+  --ink-soft: #7a6e5d;
+  --gold: #c9a45c;
+  --wine: #7d2a35;
+  --wine-dark: #62202a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--night-top); }
+body {
+  font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  background: linear-gradient(180deg, var(--night-top) 0%, var(--night-bottom) 100%) fixed;
+  min-height: 100vh;
+  color: #efe7d6;
+  padding: 40px 18px 56px;
+  position: relative;
+  overflow-x: hidden;
+}
+#snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.container { position: relative; z-index: 1; width: 100%; max-width: 440px; margin: 0 auto; }
+.hero { text-align: center; margin-bottom: 28px; }
+.tree-svg { width: 210px; height: auto; display: block; margin: 0 auto; overflow: visible; }
+.title { font-size: 1.45rem; font-weight: 500; letter-spacing: 0.22em; margin-top: 18px; padding-left: 0.22em; }
+.rule { width: 40px; height: 1px; background: var(--gold); margin: 14px auto; opacity: 0.8; }
+.subtitle { font-size: 0.88rem; letter-spacing: 0.12em; line-height: 2; color: #b9b2a2; }
+.light { animation: twinkle 3.2s ease-in-out infinite; }
+.light:nth-child(2n) { animation-delay: 0.8s; }
+.light:nth-child(3n) { animation-delay: 1.6s; }
+.light:nth-child(5n) { animation-delay: 2.3s; }
+@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+.star-glow { animation: glow 4s ease-in-out infinite; transform-origin: 100px 26px; }
+@keyframes glow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+.bauble { transform-box: fill-box; transform-origin: 50% 0%; animation: drop 0.7s cubic-bezier(.3,1.5,.5,1) both; }
+.bauble.swing { animation: swing 2.8s ease-in-out infinite; }
+@keyframes drop { from { transform: translateY(-14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.paper {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 34px 28px 30px;
+  box-shadow: 0 1px 0 var(--paper-edge), 0 18px 40px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+.paper::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(201, 164, 92, 0.55);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+input[type="text"], textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #cdbf9f;
+  padding: 8px 2px;
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 0;
+}
+input[type="text"]::placeholder, textarea::placeholder { color: #b3a68b; }
+input[type="text"]:focus, textarea:focus { border-bottom-color: var(--wine); }
+.group { margin-bottom: 26px; }
+textarea {
+  resize: none;
+  min-height: 200px;
+  line-height: 2.2rem;
+  padding: 0 2px;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(2.2rem - 1px), #ddd0b4 calc(2.2rem - 1px), #ddd0b4 2.2rem);
+  background-attachment: local;
+  border-bottom: none;
+}
+.count { text-align: right; font-size: 0.75rem; color: var(--ink-soft); margin-top: 6px; letter-spacing: 0.08em; }
+.baubles { display: flex; gap: 14px; justify-content: space-between; padding: 4px 2px; }
+.pick {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  box-shadow: inset -4px -5px 8px rgba(0, 0, 0, 0.22), inset 4px 4px 7px rgba(255, 255, 255, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s;
+}
+.pick:hover { transform: translateY(-2px); }
+.pick::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  transition: border-color 0.2s;
+}
+.pick[aria-checked="true"]::after { border-color: var(--wine); }
+.check {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  font-family: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: rgba(201, 164, 92, 0.12);
+  border: 1px solid #d9c9a3;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.check:hover { background: rgba(201, 164, 92, 0.2); }
+.check[aria-checked="true"] { border-color: var(--wine); background: rgba(125, 42, 53, 0.07); }
+.check-box {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 1.5px solid #a79670;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f5eee0;
+  font-size: 0.8rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.check[aria-checked="true"] .check-box { background: var(--wine); border-color: var(--wine); }
+.check-text { font-size: 0.92rem; letter-spacing: 0.1em; line-height: 1.5; }
+.check-text small { display: block; font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.08em; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.send {
+  width: 100%;
+  margin-top: 4px;
+  padding: 15px;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  padding-left: 0.3em;
+  color: #f5eee0;
+  background: var(--wine);
+  border: 1px solid var(--wine-dark);
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 3px var(--wine), inset 0 0 0 4px rgba(201, 164, 92, 0.7);
+  transition: background 0.2s, opacity 0.2s;
+}
+.send:hover:not(:disabled) { background: var(--wine-dark); }
+.send:disabled { opacity: 0.5; cursor: not-allowed; }
+.error { color: var(--wine); font-size: 0.82rem; text-align: center; margin-top: 12px; min-height: 1.2em; }
+.thanks { display: none; text-align: center; padding: 28px 0 22px; }
+.thanks.show { display: block; animation: fade 0.8s ease both; }
+.thanks h2 { font-weight: 500; font-size: 1.2rem; letter-spacing: 0.2em; margin-bottom: 14px; }
+.thanks p { font-size: 0.9rem; line-height: 2.1; color: var(--ink-soft); letter-spacing: 0.08em; }
+.again {
+  margin-top: 22px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--gold);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 2px 4px;
+}
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.footer { text-align: center; margin-top: 30px; font-size: 0.78rem; letter-spacing: 0.2em; color: #8a8576; }
+@media (prefers-reduced-motion: reduce) {
+  .light, .star-glow, .bauble, .bauble.swing { animation: none; }
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="tree-area">
-      <div class="tree">🎄</div>
-      <h1 class="title">クリスマスツリー</h1>
-      <p class="subtitle">あなたの気持ちを<br>オーナメントに込めて飾ってください</p>
-    </div>
-
-    <div class="card">
-      <form id="letterForm" action="https://formspree.io/f/ここにあなたのフォームID" method="POST">
-        <label>お名前</label>
-        <input type="text" name="name" id="name" placeholder="匿名でも大丈夫です" maxlength="30">
-
-        <label>オーナメントを選ぶ</label>
-        <div class="ornaments" id="ornamentList">
-          <div class="ornament selected" data-emoji="🎁">🎁</div>
-          <div class="ornament" data-emoji="⭐">⭐</div>
-          <div class="ornament" data-emoji="🔔">🔔</div>
-          <div class="ornament" data-emoji="❄️">❄️</div>
-          <div class="ornament" data-emoji="🎅">🎅</div>
-          <div class="ornament" data-emoji="🦌">🦌</div>
-          <div class="ornament" data-emoji="🧦">🧦</div>
-          <div class="ornament" data-emoji="🍪">🍪</div>
-          <div class="ornament" data-emoji="🕯️">🕯️</div>
-          <div class="ornament" data-emoji="💌">💌</div>
-        </div>
-        <input type="hidden" name="ornament" id="ornamentInput" value="🎁">
-
-        <label>メッセージ</label>
-        <textarea name="message" id="message" placeholder="伝えたいことを自由に書いてください。&#10;短くても、長くても大丈夫です。" maxlength="1000" required></textarea>
-        <div class="char-count"><span id="count">0</span> / 1000</div>
-
-        <div class="security-box" id="securityBox">
-          <div class="checkbox" id="checkbox"></div>
-          <div class="security-text">
-            私はロボットではありません
-            <span>送信前の簡単な確認です</span>
-          </div>
-        </div>
-
-        <button type="submit" id="submitBtn" disabled>ツリーに飾る</button>
-      </form>
-    </div>
-
-    <p class="footer">大切な気持ちを、そっと届けます</p>
+<canvas id="snow"></canvas>
+<div class="container">
+  <div class="hero">
+    <svg class="tree-svg" viewBox="0 0 200 250" aria-hidden="true">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1f5a43"/>
+          <stop offset="1" stop-color="#143b2d"/>
+        </linearGradient>
+        <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1a4d3a"/>
+          <stop offset="1" stop-color="#0f3024"/>
+        </linearGradient>
+        <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#f3d58a" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#f3d58a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="shine" cx="0.35" cy="0.3" r="0.7">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.8"/>
+          <stop offset="0.4" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="100" cy="26" r="34" fill="url(#halo)" class="star-glow"/>
+      <rect x="92" y="205" width="16" height="26" fill="#3a2a1f"/>
+      <polygon points="100,88 28,208 172,208" fill="url(#g2)"/>
+      <polygon points="100,52 44,150 156,150" fill="url(#g1)"/>
+      <polygon points="100,28 62,96 138,96" fill="url(#g2)"/>
+      <path d="M100 12 L103.2 21.4 L113 21.6 L105.2 27.4 L108 37 L100 31.4 L92 37 L94.8 27.4 L87 21.6 L96.8 21.4 Z" fill="#f1cf7a"/>
+      <g id="lights" fill="#f6dc9a">
+        <circle class="light" cx="92" cy="62" r="1.8"/>
+        <circle class="light" cx="108" cy="78" r="1.8"/>
+        <circle class="light" cx="80" cy="104" r="1.8"/>
+        <circle class="light" cx="120" cy="116" r="1.8"/>
+        <circle class="light" cx="66" cy="136" r="1.8"/>
+        <circle class="light" cx="134" cy="140" r="1.8"/>
+        <circle class="light" cx="98" cy="132" r="1.8"/>
+        <circle class="light" cx="52" cy="176" r="1.8"/>
+        <circle class="light" cx="148" cy="180" r="1.8"/>
+        <circle class="light" cx="86" cy="170" r="1.8"/>
+        <circle class="light" cx="116" cy="164" r="1.8"/>
+        <circle class="light" cx="72" cy="196" r="1.8"/>
+        <circle class="light" cx="130" cy="198" r="1.8"/>
+      </g>
+      <g id="hangers"></g>
+    </svg>
+    <h1 class="title">クリスマスツリー</h1>
+    <div class="rule"></div>
+    <p class="subtitle">あなたの気持ちを、一枚の手紙にして<br>ツリーにそっと飾ってください</p>
   </div>
 
-  <script>
-    let selectedOrnament = "🎁";
-    let isVerified = false;
+  <div class="paper">
+    <form id="letterForm" action="https://formspree.io/f/ここにあなたのフォームID" method="POST" novalidate>
+      <div class="group">
+        <label class="field-label" for="name">お名前</label>
+        <input type="text" name="name" id="name" placeholder="匿名でも大丈夫です" maxlength="30" autocomplete="off">
+      </div>
 
-    document.querySelectorAll(".ornament").forEach(el => {
-      el.addEventListener("click", () => {
-        document.querySelectorAll(".ornament").forEach(o => o.classList.remove("selected"));
-        el.classList.add("selected");
-        selectedOrnament = el.dataset.emoji;
-        document.getElementById("ornamentInput").value = selectedOrnament;
-      });
+      <div class="group">
+        <span class="field-label" id="orn-label">飾りの色</span>
+        <div class="baubles" id="baubles" role="radiogroup" aria-labelledby="orn-label"></div>
+        <input type="hidden" name="ornament" id="ornamentInput" value="">
+      </div>
+
+      <div class="group">
+        <label class="field-label" for="message">お手紙</label>
+        <textarea name="message" id="message" placeholder="伝えたいことを、自由に。&#10;短くても、長くても大丈夫です。" maxlength="1000" required></textarea>
+        <div class="count"><span id="count">0</span> / 1000</div>
+      </div>
+
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <button type="button" class="check" id="check" role="checkbox" aria-checked="false">
+        <span class="check-box" id="checkBox"></span>
+        <span class="check-text">私はロボットではありません<small>送信前の簡単な確認です</small></span>
+      </button>
+
+      <button type="submit" class="send" id="submitBtn" disabled>ツリーに飾る</button>
+      <p class="error" id="error" role="alert"></p>
+    </form>
+
+    <div class="thanks" id="thanks">
+      <h2>飾られました</h2>
+      <p>あなたの気持ちが<br>ツリーにそっと灯りました。<br>ありがとうございます。</p>
+      <button type="button" class="again" id="again">もう一通書く</button>
+    </div>
+  </div>
+
+  <p class="footer">大切な気持ちを、そっと届けます</p>
+</div>
+
+<script>
+const COLORS = [
+  { name: '赤', base: '#b3262f' },
+  { name: '金', base: '#d1a640' },
+  { name: '銀', base: '#aeb7c4' },
+  { name: '青', base: '#2f5fa8' },
+  { name: '桃', base: '#d98aa0' },
+  { name: '緑', base: '#2e8a63' }
+];
+const SLOTS = [[84, 98], [116, 108], [70, 148], [128, 156], [96, 150], [58, 194], [104, 190], [142, 196]];
+const STORAGE_KEY = 'xmas-letter-draft-v1';
+const NS = 'http://www.w3.org/2000/svg';
+
+const form = document.getElementById('letterForm');
+const nameEl = document.getElementById('name');
+const msgEl = document.getElementById('message');
+const countEl = document.getElementById('count');
+const submitBtn = document.getElementById('submitBtn');
+const errorEl = document.getElementById('error');
+const thanksEl = document.getElementById('thanks');
+const againBtn = document.getElementById('again');
+const bauublesBox = document.getElementById('baubles');
+const ornInput = document.getElementById('ornamentInput');
+const hangers = document.getElementById('hangers');
+
+let colorIndex = 0;
+let slotIndex = 0;
+let current = null;
+
+function mk(tag, attrs) {
+  const el = document.createElementNS(NS, tag);
+  Object.keys(attrs).forEach(k => el.setAttribute(k, attrs[k]));
+  return el;
+}
+
+function buildBauble(x, y, color) {
+  const g = mk('g', { class: 'bauble swing' });
+  g.appendChild(mk('line', { x1: x, y1: y - 12, x2: x, y2: y - 6, stroke: '#d8c28a', 'stroke-width': 0.8 }));
+  g.appendChild(mk('rect', { x: x - 2.2, y: y - 7.4, width: 4.4, height: 2.6, rx: 0.8, fill: '#d8c28a' }));
+  const body = mk('circle', { cx: x, cy: y, r: 7, fill: color });
+  g.appendChild(body);
+  g.appendChild(mk('circle', { cx: x, cy: y, r: 7, fill: 'url(#shine)' }));
+  g.body = body;
+  return g;
+}
+
+function placeCurrent() {
+  if (current) current.remove();
+  const s = SLOTS[slotIndex % SLOTS.length];
+  current = buildBauble(s[0], s[1], COLORS[colorIndex].base);
+  hangers.appendChild(current);
+}
+
+function setColor(i) {
+  colorIndex = i;
+  ornInput.value = COLORS[i].name;
+  Array.from(bauublesBox.children).forEach((b, k) => b.setAttribute('aria-checked', k === i ? 'true' : 'false'));
+  if (current && current.body) {
+    current.body.setAttribute('fill', COLORS[i].base);
+  } else {
+    placeCurrent();
+  }
+  saveDraft();
+}
+
+COLORS.forEach((c, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'pick';
+  b.style.background = 'radial-gradient(circle at 35% 30%, ' + c.base + ', ' + c.base + ')';
+  b.setAttribute('role', 'radio');
+  b.setAttribute('aria-label', c.name);
+  b.setAttribute('aria-checked', 'false');
+  b.addEventListener('click', () => setColor(i));
+  bauublesBox.appendChild(b);
+});
+
+function saveDraft() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      name: nameEl.value,
+      message: msgEl.value,
+      color: colorIndex,
+      slot: slotIndex
+    }));
+  } catch (e) {}
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
+
+function clearDraft() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+}
+
+const checkEl = document.getElementById('check');
+const checkBoxEl = document.getElementById('checkBox');
+let verified = false;
+
+function setVerified(v) {
+  verified = v;
+  checkEl.setAttribute('aria-checked', v ? 'true' : 'false');
+  checkBoxEl.textContent = v ? '✓' : '';
+  refresh();
+}
+
+checkEl.addEventListener('click', () => setVerified(!verified));
+
+function refresh() {
+  countEl.textContent = msgEl.value.length;
+  submitBtn.disabled = !(msgEl.value.trim().length > 0 && verified);
+}
+
+msgEl.addEventListener('input', () => { refresh(); saveDraft(); });
+nameEl.addEventListener('input', saveDraft);
+
+const draft = loadDraft();
+if (draft) {
+  nameEl.value = draft.name || '';
+  msgEl.value = draft.message || '';
+  slotIndex = typeof draft.slot === 'number' ? draft.slot : 0;
+  setColor(typeof draft.color === 'number' && COLORS[draft.color] ? draft.color : 0);
+} else {
+  slotIndex = Math.floor(Math.random() * SLOTS.length);
+  setColor(0);
+}
+refresh();
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (msgEl.value.trim().length === 0) return;
+  errorEl.textContent = '';
+  submitBtn.disabled = true;
+  submitBtn.textContent = '飾っています…';
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
     });
+    if (!res.ok) throw new Error('bad status');
+    clearDraft();
+    form.style.display = 'none';
+    thanksEl.classList.add('show');
+    if (current) {
+      const keep = current;
+      keep.classList.remove('swing');
+      void keep.getBoundingClientRect();
+      keep.classList.add('swing');
+      current = null;
+      keep.body = null;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    errorEl.textContent = '送信できませんでした。通信状況を確認して、もう一度お試しください。';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'ツリーに飾る';
+  }
+});
 
-    const textarea = document.getElementById("message");
-    const count = document.getElementById("count");
-    const securityBox = document.getElementById("securityBox");
-    const checkbox = document.getElementById("checkbox");
-    const submitBtn = document.getElementById("submitBtn");
+againBtn.addEventListener('click', () => {
+  msgEl.value = '';
+  nameEl.value = '';
+  slotIndex = (slotIndex + 1) % SLOTS.length;
+  current = null;
+  thanksEl.classList.remove('show');
+  form.style.display = '';
+  submitBtn.textContent = 'ツリーに飾る';
+  setColor(colorIndex);
+  setVerified(false);
+});
 
-    textarea.addEventListener("input", () => {
-      count.textContent = textarea.value.length;
+const canvas = document.getElementById('snow');
+const ctx = canvas.getContext('2d');
+let flakes = [];
+let W = 0;
+let H = 0;
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function initFlakes() {
+  const n = Math.min(70, Math.floor(W / 14));
+  flakes = [];
+  for (let i = 0; i < n; i++) {
+    flakes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.6 + 0.5,
+      v: Math.random() * 0.45 + 0.2,
+      p: Math.random() * Math.PI * 2
     });
+  }
+}
 
-    securityBox.addEventListener("click", () => {
-      isVerified = !isVerified;
-      securityBox.classList.toggle("checked", isVerified);
-      checkbox.textContent = isVerified ? "✓" : "";
-      submitBtn.disabled = !isVerified;
-    });
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(255,255,255,0.65)';
+  flakes.forEach(f => {
+    f.y += f.v;
+    f.p += 0.01;
+    f.x += Math.sin(f.p) * 0.25;
+    if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; }
+    ctx.globalAlpha = 0.25 + f.r / 3;
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  requestAnimationFrame(tick);
+}
 
-    document.getElementById("letterForm").addEventListener("submit", function(e) {
-      if (!isVerified) {
-        e.preventDefault();
-        return;
-      }
-      submitBtn.disabled = true;
-      submitBtn.textContent = "飾っています…";
-    });
-  </script>
+resize();
+initFlakes();
+window.addEventListener('resize', () => { resize(); initFlakes(); });
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  requestAnimationFrame(tick);
+}
+</script>
 </body>
 </html>
